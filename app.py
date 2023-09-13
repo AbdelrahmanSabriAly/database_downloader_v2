@@ -37,6 +37,7 @@ student = st.button("I am a student")
 if student:
 
     with st.form("Attendance Form"):
+        st.title("Face | MAC form")
         
         year = st.selectbox("Year",["First Year","Second Year","Third Year","Fourth Year"])
         year = year.replace(" ","_")
