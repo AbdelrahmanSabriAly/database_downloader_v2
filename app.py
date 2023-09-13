@@ -24,7 +24,7 @@ def is_valid_mac(mac):
     return bool(re.match(pattern, mac))
 
 def main():
-    st.header("Face | MAC form")
+    
     ID = st.text_input("Enter your ID")
 
     if not ID:
@@ -37,6 +37,7 @@ def main():
 
 def handle_attendance_form(ID):
     with st.form("Attendance Form"):
+        st.header("Face | MAC form")
         year = st.selectbox("Year", ["First Year", "Second Year", "Third Year", "Fourth Year"])
         year = year.replace(" ", "_")
 
