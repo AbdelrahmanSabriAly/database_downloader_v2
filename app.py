@@ -70,6 +70,7 @@ def handle_database_downloader():
             existing_dict = pickle.load(file)
 
         st.success(f"There are {len(existing_dict[1])} students")
+        st.table(existing_dict[1].items())
         st.download_button(
             label="Click here to download the database",
             data=open(file_name, "rb").read(),
