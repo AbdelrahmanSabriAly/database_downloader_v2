@@ -3,6 +3,9 @@ import time
 import cv2
 import pickle
 
+from drive import upload_to_drive
+
+
 
 COSINE_THRESHOLD = 0.5
 
@@ -74,6 +77,7 @@ def get_face_encodings(image,face_detector,face_recognizer,id,mac,year):
         # Save the updated dictionary back to the pickle file
         with open(f'{year}_database.pkl', 'wb') as file:
             pickle.dump(existing_dict, file)
+            upload_to_drive(f'{year}_database.pkl')
 
     else:
         face_dictionary = {}
@@ -82,4 +86,5 @@ def get_face_encodings(image,face_detector,face_recognizer,id,mac,year):
         mac_dictionary[id] = mac
         with open(f'{year}_database.pkl', 'wb') as f:
             pickle.dump([face_dictionary,mac_dictionary], f)
+            upload_to_drive(f'{year}_database.pkl')
     return True
