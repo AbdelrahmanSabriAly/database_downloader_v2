@@ -1,25 +1,10 @@
-import os
 import time
 import cv2
 import pickle
 
 
-
-
 COSINE_THRESHOLD = 0.5
 
-def match(recognizer, feature1, dictionary):
-    max_score = 0.0
-    sim_user_id = ""
-    for user_id, feature2 in zip(dictionary.keys(), dictionary.values()):
-        score = recognizer.match(
-            feature1, feature2, cv2.FaceRecognizerSF_FR_COSINE)
-        if score >= max_score:
-            max_score = score
-            sim_user_id = user_id
-    if max_score < COSINE_THRESHOLD:
-        return False, ("", 0.0)
-    return True, (sim_user_id, max_score)
 
 def recognize_face(image, face_detector, face_recognizer, file_name=None):
     channels = 1 if len(image.shape) == 2 else image.shape[2]
@@ -64,24 +49,17 @@ def get_face_encodings(image,face_detector,face_recognizer,id,mac,year):
 
     if len(faces) == 0:
         return False
-    if os.path.exists(f'{year}_database.pkl'):
-        # Open the pickle file to load the existing dictionary
-        with open(f'{year}_database.pkl', 'rb') as file:
-            existing_dict = pickle.load(file)
+    
+    # Open the pickle file to load the existing dictionary
+    with open(f'pkl_files/{year}_database.pkl', 'rb') as file:
+        existing_dict = pickle.load(file)
 
-        # Append a new item to the existing dictionary
-        existing_dict[0][id] = feats[0]
-        existing_dict[1][id] = mac
+    # Append a new item to the existing dictionary
+    existing_dict[0][id] = feats[0]
+    existing_dict[1][id] = mac
 
-        # Save the updated dictionary back to the pickle file
-        with open(f'{year}_database.pkl', 'wb') as file:
-            pickle.dump(existing_dict, file)
+    # Save the updated dictionary back to the pickle file
+    with open(f'pkl_files/{year}_database.pkl', 'wb') as file:
+        pickle.dump(existing_dict, file)
 
-    else:
-        face_dictionary = {}
-        mac_dictionary = {}
-        face_dictionary[id] = feats[0]
-        mac_dictionary[id] = mac
-        with open(f'{year}_database.pkl', 'wb') as f:
-            pickle.dump([face_dictionary,mac_dictionary], f)
     return True

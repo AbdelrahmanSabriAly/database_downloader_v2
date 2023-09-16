@@ -7,6 +7,26 @@ import pickle
 
 from FaceRecog import get_face_encodings
 
+# CSS style to hide Streamlit's main menu and footer
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+.css-om8cny{
+transition: 0.3s;
+}
+
+.css-om8cny:hover{
+background-color: aqua;
+color: black;
+}
+</style>
+"""
+
+# Applying the CSS style to hide Streamlit's main menu and footer
+# st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
 @st.cache_resource
 def load_models():
     # Init models face detection & recognition
@@ -27,7 +47,6 @@ def main():
     
     ID = st.text_input("Enter your ID")
     
-
     if not ID:
         return
 
@@ -63,7 +82,7 @@ def handle_database_downloader():
 
     year = st.selectbox("Choose year", ["First Year", "Second Year", "Third Year", "Fourth Year"])
     year = year.replace(" ", "_")
-    file_name = f"{year}_database.pkl"
+    file_name = f"pkl_files/{year}_database.pkl"
     proceed_button = st.button("Proceed")
 
     if proceed_button:
