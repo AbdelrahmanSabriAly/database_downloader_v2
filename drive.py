@@ -41,5 +41,6 @@ def upload_to_drive(file_path):
     # Upload the file
     file = drive_service.files().create(body=file_metadata, media_body=media, fields="id").execute()
 
+    file_id = file.get("id")
     # Print the file ID of the uploaded file
-    print("File ID:", file.get("id"))
+    st.info(f"File ID: {file_id}")
